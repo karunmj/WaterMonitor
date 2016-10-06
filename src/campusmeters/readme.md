@@ -1,4 +1,4 @@
-#Brief decription of the source code for AggieWater devices used for logging data on campus residential building water meters.
+Brief decription of source code for Raspberry Pi to log water use data from USU's campus residential building water meters.
 
 ###meterlog.py
 
