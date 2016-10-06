@@ -4,7 +4,16 @@ Cyberinfrastructure for Intelligent Water Supply (ciws) is an end to end system 
 This repository will contain data collection files. We will be building a prototype with Raspberry Pi to log data from commercial water meters with pulsed or current loop outputs (4-20 mA) on USU's campus. 
    
 ##Getting Started
-(TODO: put stuff here)
+(TODO)
+
+##Development
+(TODO)
+
+##Deployment
+(TODO)
+
+##Contribution
+Fork and branch git workflow
 
 ##License
 
