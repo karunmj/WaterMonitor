@@ -6,16 +6,16 @@ This repository will contain data collection files for a testbed in USU's Learni
 A high level system architecutre diagram for data collection is as follows:
 (TODO)
 
-The primary contributions of this projct would include continuous autonomus data logging on a Raspberry Pi and subsequent data streaming to a backend server.
+The primary contributions of this projct would include continuous autonomous data logging on a Raspberry Pi and subsequent data streaming to a backend server.
 
 ##Getting Started
 (TODO)
 
 ##Development
-Test code on your local machine and commit changes to this repository.
+Test code on your local machine/ rapsberry pi and push changes to this repository.
 
 ##Deployment
 Pull the master branch to Raspberry Pi to begin data collection.
 
 ##Contribution
-Fork and branch git workflow
+Fork and/ or branch git workflow
