@@ -1,6 +1,6 @@
 # ----------------------------------------------------------------------------
 # meterlog.py
-# Author: Jeff Horsburgh
+# Author: Dr. Jeff Horsburgh
 # Creation Date: 7/22/2016
 # Development Environment:
 #   PyCharm 5.0.5
