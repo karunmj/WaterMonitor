@@ -1,6 +1,6 @@
 # ----------------------------------------------------------------------------
 # meterlog.py
-# Author: Dr. Jeff Horsburgh
+# Author: Jeff Horsburgh
 # Creation Date: 7/22/2016
 # Development Environment:
 #   PyCharm 5.0.5
@@ -32,7 +32,7 @@ siteCode = "LLC_BLDG_A_HotSupply"
 scanInterval = 1.0          # Time between scans within the main loop in seconds
 recordInterval = 30.0       # Time between recorded values in seconds
 # Set meter Specific Values
-maxFlowRate = 200.0          # Maximum flow rate of meter at 20 mA output (gal/min)
+maxFlowRate = 50.0          # Maximum flow rate of meter at 20 mA output (gal/min)
 calibrationFactor = 1.0     # A value to scale the output voltages based on simple one point calibration
 
 # Create an ADS1015 ADC (12-bit) instance with default address
@@ -77,10 +77,10 @@ dataHeader = '"Date\",\"RecordNumber\",\"SensorVoltage\",\"FlowRate\", \"AvgFlow
              '\"IncrementalVolume\", \"TotalizedVolume\"'
 print dataHeader
 # Open the file for writing to make sure the file gets created, write the header, then close it
-with open(outputFilePath + outputFileName, 'w') as outputFile:
-    outputFile.write(loggerName + '\n')
-    outputFile.write(meterReading + '\n')
-    outputFile.write(dataHeader + '\n')
+#with open(outputFilePath + outputFileName, 'w') as outputFile:
+#    outputFile.write(loggerName + '\n')
+#    outputFile.write(meterReading + '\n')
+#    outputFile.write(dataHeader + '\n')
 
 # Initialize timing variables
 # --------------------
@@ -105,6 +105,9 @@ sampleCount = 0             # The number of samples collected within the recordi
 scanIntervalVolume = 0.0    # Total flow volume for the current scan interval (gal)
 recordIntervalVolume = 0.0  # Total flow volume for the current recording interval (gal)
 totalizedVolume = 0.0       # Total flow volume from the meter since the program started (gal)
+
+#Set ADC in continuous mode
+adc.start_adc(flowPin, gain=GAIN, data_rate=490)
 
 # Delay the start of the program execution so the times recorded with
 # measurements will be even divisions of minutes
@@ -132,8 +135,9 @@ while True:
         # Perform Measurements
         # --------------------
         # Get the voltage measurement from the meter - divide by 1000 to convert from mV to V
-        sensorVolts = calibrationFactor * bitConversionFactor * adc.read_adc(flowPin, gain=GAIN) / 1000
-
+        #Choose continuous or on request mode
+        #sensorVolts = calibrationFactor * bitConversionFactor * adc.read_adc(flowPin, gain=GAIN, data_rate=3300) / 1000
+        sensorVolts = calibrationFactor * bitConversionFactor * adc.get_last_result() / 1000
         # Check to see if the output voltage is greater than the minimum - if not, set flow to zero
         # Add an arbitrary buffer onto the minVoltage (0.0001 V) to avoid small errors when the flow is zero
         if sensorVolts > (minVoltage + 0.0001):
@@ -162,9 +166,9 @@ while True:
         # Check to see if it's time to record data and if so, write data
         if (currTime - previousRecordTime) >= recordInterval:
             # Save the data record to the output file
-            with open(outputFilePath + outputFileName, 'a') as outputFile:
-                outputFile.write(dataRecord + '\n')
-
+            #with open(outputFilePath + outputFileName, 'a') as outputFile:
+            #    outputFile.write(dataRecord + '\n')
+		
             # Remember the time at which the record was written to the file
             previousRecordTime = currTime
 
@@ -174,3 +178,5 @@ while True:
             flowSum = 0.0
             avgFlowRate = 0.0
             sampleCount = 0.0
+
+adc.stop_adc()
