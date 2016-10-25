@@ -145,6 +145,12 @@ while True:
         else:
             flowRate = 0.0
 
+        #Rounding flow rate to the form x.yx to match with meter display
+        flowRate = round(flowRate, 2)
+
+        #Adding calibration, offset to match with meter display (location spectific)
+        flowRate = flowRate + 0.04
+
         # Calculate the derived values
         timeInterval = (currTime - previousTime)               # Time of scan interval in seconds
         scanIntervalVolume = (flowRate * timeInterval) / 60.0  # Total flow for scan interval (gal)
