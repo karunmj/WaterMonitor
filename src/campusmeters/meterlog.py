@@ -20,10 +20,12 @@
 # TODO:
 # 1. Build program for multi meter sites
 # ----------------------------------------------------------------------------
+
 import time
 # Import the ADS1x15 module.
 import Adafruit_ADS1x15
 import sys
+import protopushrpi
 
 # Set all site specific configuration options for deployment
 # ----------------------------------------------------------
@@ -89,6 +91,8 @@ currTime = 0.0            # Timing variable
 previousTime = 0.0        # Timing variable
 previousRecordTime = 0.0  # Timing variable
 timeInterval = 0.0        # Timing Variable
+serverpusharray = []
+serverpushcount = 0
 
 # Define sensor related values
 # ----------------------------
@@ -169,12 +173,23 @@ while True:
         # Remember the time at which the current measurement started
         previousTime = currTime
 
-        # Check to see if it's time to record data and if so, write data
+        # Check to see if it's time to record data/ push to server and if so, write/ push data
         if (currTime - previousRecordTime) >= recordInterval:
             # Save the data record to the output file
             #with open(outputFilePath + outputFileName, 'a') as outputFile:
             #    outputFile.write(dataRecord + '\n')
 		
+            # Array to push datavalues to server
+            if (serverpushcount == 0) or (serverpushcount == 1):
+                serverpushcount += 1
+                serverpusharray.append(now + "::" + str(avgFlowRate))
+            
+            if serverpushcount == 2:
+                serverpusharray = [x.replace('"', "") for x in serverpusharray] #Bad hack to remove d-quotes from dateobj
+                protopushrpi.serverpush(serverpusharray)
+                serverpushcount = 0
+                serverpusharray = []
+            
             # Remember the time at which the record was written to the file
             previousRecordTime = currTime
 
