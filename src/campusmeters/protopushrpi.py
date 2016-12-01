@@ -12,10 +12,10 @@ def serverpush(serverpusharray):
                 "timeseries_id": "1",
                 "datavalues": [{
                     "datavalue_value": t[0][1],
-                    "datavalue_datetime_utc": t[0][0]
+                    "datavalue_datetime_local": t[0][0]
                 }, {
                     "datavalue_value": t[1][1],
-                    "datavalue_datetime_utc": t[1][0]
+                    "datavalue_datetime_local": t[1][0]
                 }]
     }
     
